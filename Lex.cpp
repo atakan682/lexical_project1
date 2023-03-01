@@ -237,7 +237,7 @@ void Lex::lexer(ifstream& file)
 
 		//check if current character is a separator, operator, whitespace, or eof
 		//if yes, put the flag to exit the loop
-		if (this->isSeparator(ch) || this->isOperator(ch) || isspace(ch) || ch == -1)
+		if (this->theSeparator(ch) || this->theOperator(ch) || isspace(ch) || ch == -1)
 		{
 			found = true;
 		}
@@ -246,7 +246,7 @@ void Lex::lexer(ifstream& file)
 		decrease the current location in stream by one character
 		else if current character is neither whitespace nor eof
 		stores the char into string*/
-		if (!str.empty() && (this->isOperator(ch) || this->isSeparator(ch)))
+		if (!str.empty() && (this->theOperator(ch) || this->theSeparator(ch)))
 			file.unget();
 		else if (!isspace(ch) && !(ch == -1))
 			str += ch;
