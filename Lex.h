@@ -27,9 +27,9 @@ public:
 	//function returns the column number of the character in the table
 	int char_to_col(const char input) const;
 
-	bool theSeparator(const char input) const;
-	bool theOperator(const char input) const;
-	bool theKeyword(string identifier) const;
+	bool isSeparator(const char input) const;
+	bool isOperator(const char input) const;
+	bool checkKeyword(string identifier) const;
 
 	//function classify a string into a specific group
 	int Classify(string);
