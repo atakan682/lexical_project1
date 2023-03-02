@@ -27,26 +27,7 @@ int main() {
                 cerr << "Failed to open the file\n";
                 exit(1);
             }
-			else
-			{
-				cout << "SOURCE CODE:\n\n";
-				outFile << "SOURCE CODE:\n\n";
-				while (getline(file, line))
-				{
-					cout << line << endl;
-					outFile << line << endl;
-				}
-			}
-
-			cout << "\n\nOUTPUT:\n";
-            cout << left << setw(20) << "Token" << setw(20) << "Lexeme" << endl;
-            cout << endl;
-
-			
-			outFile << "\n\nOUTPUT:\n";
-			outFile << left << setw(20) << "Token" << setw(20) << "Lexeme" << endl;
-			outFile << endl;
-
+		
             Lex check;
 
 			file.clear();
@@ -73,8 +54,5 @@ int main() {
 
 	outFile.close();
     cout << endl;
-	//comment out system("Pause") if you are trying execute file on Linux OS
-	//otherwise, uncomment it if on Windows OS
-    //system("Pause");
     return 0;
 }
