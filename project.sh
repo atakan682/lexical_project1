@@ -1,8 +1,11 @@
 !bin/bash
-#Author: 	Thomas Ngo
-#Email:		tngo0508@csu.fullerton.edu	
+
+#Author information
+#Author names: Mustafa Atakan Tan (mtan17@csu.fullerton.edu)
+#	  	         Joshua Germing (Joshuagerming@gmail.com)
+#		           Valentyna Shyyan (ValentynaShyyan@gmail.com)  
 #Course: 	CPSC323
-#Project #:	RAT17F
+#Project #:	RAT23S
 #File name:	project.sh
 
 echo script file for Project3 begin
