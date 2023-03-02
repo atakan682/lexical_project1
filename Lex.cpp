@@ -1,3 +1,26 @@
+/*
+  Author information
+  Author names: Mustafa Atakan Tan (mtan17@csu.fullerton.edu)
+	  	Joshua Germing (Joshuagerming@gmail.com)
+		Valentyna Shyyan (ValentynaShyyan@gmail.com)  
+
+Program information
+  Program name: Compiler Project 1
+  Programming languages: C++, RAT23S
+  Date program began: 2023 Feb 28
+  Date of last update: 2023 Mar 3
+
+  Status: Finished.
+
+This file
+   File name: Lex.cpp
+   Language: C++
+   Max page width: 132 columns
+   Assemble using provided bash (.sh) file
+
+===== Begin code area =============================================================================================
+*/
+
 #include "Lex.h"
 
 //constructor
