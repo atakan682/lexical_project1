@@ -287,6 +287,16 @@ void Lex::lexer(ifstream& file)
 	{
 		ch = file.get();
 
+		//if comments skip until end of comment chars
+        if (ch == '[' && file.peek() == 0) {
+            ch = file.get();
+            ch = file.get();
+            while (ch != 0 && file.peek() != ']') {
+                ch = file.get();
+            }
+            ch = file.get();
+            ch = file.get();
+        }
 		//check if current character is a separator, operator, whitespace, or eof
 		//if yes, put the flag to exit the loop
 		if (this->isSeparator(ch) || this->isOperator(ch) || isspace(ch) || ch == -1)
