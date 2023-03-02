@@ -5,6 +5,7 @@
 		Valentyna Shyyan (ValentynaShyyan@gmail.com)  
 
 Program information
+
   Program name: Compiler Project 1
   Programming languages: C++, RAT23S
   Date program began: 2023 Feb 28
@@ -288,10 +289,10 @@ void Lex::lexer(ifstream& file)
 		ch = file.get();
 
 		//if comments skip until end of comment chars
-        if (ch == '[' && file.peek() == 0) {
+        if (ch == '[' && file.peek() == '*') {
             ch = file.get();
             ch = file.get();
-            while (ch != 0 && file.peek() != ']') {
+            while (ch != '*' && file.peek() != ']') {
                 ch = file.get();
             }
             ch = file.get();
