@@ -15,40 +15,40 @@ public:
 	//constructor
 	Lex();
 
-	//finite state machine for integer
+	//FSM for INTEGER
 	int int_DFSM(const string str);
 
-	//finite state machine for real
+	//FSM for REAL
 	int real_DFSM(const string str);
 
-	//finite state machine for identifier
+	//FSM for IDENTIFIER
 	int identifier_DFSM(const string str);
 
-	//function returns the column number of the character in the table
+	//Function to find column # of the character in the table
 	int char_to_col(const char input) const;
 
 	bool isSeparator(const char input) const;
 	bool isOperator(const char input) const;
 	bool checkKeyword(string identifier) const;
 
-	//function classify a string into a specific group
+	//Function classify to determine tokens
 	int Classify(string);
 
-	//function returns a token and a lexeme
+	//Function returns a Token Lexeme
 	void lexer(ifstream& file);
 
-	//function prints token and lexeme
+	//Punction prints them
 	void print() const;
 
-	//mutators
+	//SETTERS
 	void setToken(const string newToken);
 	void setLexeme(const string newLexeme);
 
-	//accessors
+	//GETTERS
 	string getToken() const;
 	string getLexeme() const;
 
-	//destructor
+	//Destructor
 	~Lex();
 private:
 	char input;
