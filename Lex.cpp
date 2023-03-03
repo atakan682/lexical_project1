@@ -30,22 +30,23 @@ Lex::Lex()
 	input = 'c';
 }
 
-//Function check separator
+//Function to check the separator
 bool Lex::isSeparator(const char input) const
 {
-	int separator[10] = { '(',')', '{', '}', '%', '@', ',', '[', ']', ';' };
-	for (int i = 0; i < 10; i++) {
+	int separator[6] = { '(',')', '{', '}', ',', ';' };
+	for (int i = 0; i < 6; i++) {
 		if (separator[i] == input) {
 			return 1;
 		}
 	}
 	return 0;
 }
-//Function check Operator
+
+//Function to check  the operator
 bool Lex::isOperator(const char input) const
 {
-	int operators[8] = { '+', '-', '/', '*', '<','>',':', '=' };
-	for (int i = 0; i < 8; i++) {
+	int operators[12] = { '+', '-', '/', '*', '<','>',':', '=' , '==', '!=', '<=', '>=' };
+	for (int i = 0; i < 12; i++) {
 		if (operators[i] == input) {
 			return 1;
 		}
@@ -53,12 +54,11 @@ bool Lex::isOperator(const char input) const
 	return 0;
 }
 
-//Function check keyword
+//Function to check the keyword
 bool Lex::checkKeyword(string identifier) const
 {
-	string keywords[12] = { "while", "if", "fi", "else", "return",
-		"read", "write", "integer", "true", "false", "boolean", "floating" };
-	for (int i = 0; i < 12; i++) {
+	string keywords[14] = { "while", "if", "fi", "else", "return","put", "get", "int", "true", "false", "bool", "real", "function", "endwhile" };
+	for (int i = 0; i < 14; i++) {
 		if (keywords[i] == identifier) {
 			return 1;
 		}
@@ -67,16 +67,15 @@ bool Lex::checkKeyword(string identifier) const
 }
 
 /*
- Function Classify
- Check string input to detect if the string has a separator, a letter, a digit, '#', '.'
- and return the number for that type
+ CLASSIFICATION PART
+ Checking the string input to see if the string has a separator, a letter, a digit, '#', '.'
+ and return the category number for that type
  */
 
 int Lex::Classify(string s) {
 	int len = s.length();
 
-    //Iterating the array to check if the string has a operator or not
-    //and return 1 if it is.
+    //looping through the array to check if the string has a operator and return 1 if it is.
     for (int i = 0; i < len; i++)
 	{
 		if (isOperator(s[i]))
@@ -84,33 +83,30 @@ int Lex::Classify(string s) {
 	}
 
 
-    //Iterating the array to check if the string has separator or not
-    //and return 2 if it is.
+    //looping through the array to check if the string has separatorand return 2 if it is.
     for (int i = 0; i < len; i++)
 	{
 		if (isSeparator(s[i]))
 			return 2;
 	}
 
-	//Get first char of the string
+	//getting the first char ch of the string here
 	char classify_ch = s[0];
 	if (isalpha(classify_ch) || classify_ch == '#')
 	{
 		for (int i = 0; i < len; i++)
 		{
-			//if char is either # or letter, keep checking the string sequence
-			//else return 6 which is invalid input
+			//if char is # or letter, keep checking the string sequence if not or else return 6 which is invalid input
 			if (s[i] == '#' || isalpha(s[i]));
 			else
-				return 6; //invalid input
+				return 6; //invalid input category 
 		}
 		return 3; 
 	}
     
 	else if (isdigit(classify_ch))
 	{
-		//first, check for valid input for real or integer
-		//only accept the string with number or dot(.) sign
+		//if it is a valid input, accept only string with number or dot .
 		for (int i = 0; i < len; i++)
 		{
 			if (s[i] == '.' || isdigit(s[i]));
@@ -118,51 +114,43 @@ int Lex::Classify(string s) {
 				return 6;
 		}
 
-		//second, check if there is a dot, then string could be a real number
+		//check if there is a dot
 		for (int i = 0; i < len; i++)
 		{
 			if (s[i] == '.')
 				return 4;
 		}
 
-		//detect is integer
+		//it is an integer
 		return 5;
 	}
 	else
-		return 6; //invalid input
+		return 6; //invalid input category
 
-	//not all path control above return a value. That's why we need return random number here
+	//we have to return random number here
 	return 7;
 }
 
-/*
- Function char_to_column
- Convert char to column in finite machine
- Return the column number
- Return column 1 if it is a digit
- Return column 2 if it is a point
- Return column 3 if it is a letter
- Return column 4 if it is a #
- Return 5 if it is not all of above
- */
-int Lex::char_to_col(const char input) const
+//Function char_to_column
+int Lex::char_to_col(const char input) const 
 {
+	//Convert char to column in finite machine
 	if (isdigit(input))
-		return 1;
+		return 1; //Return column 1 if it is a digit
 	else if (input == '.')
-		return 2;
+		return 2; //Return column 2 if it is a point
 	else if (isalpha(input))
-		return 3;
+		return 3; //Return column 3 if it is a letter
 	else if (input == '#')
-		return 4;
+		return 4; //Return column 4 if it is a #
 	else
-		return 5;
+		return 5; //Return 5 if none of these or all of these apply 
 }
 
-//Finite State Machine for integer
+//Finite State Machine for integer int DFSM
 int Lex::int_DFSM(const string str)
 {
-	//starting state
+	//starting at 1
 	int state = 1;
 
 	//create table N for the transitions or DFSM table for integer
@@ -202,15 +190,6 @@ int Lex::real_DFSM(string str)
 	//starting state
 	int state = 1;
 
-	//DFSM table for real
-    //First column and first row are labels.
-    //Other columns and rows are states based on converting NFSM to DFSM
-	/*	0	d	.
-		1	2	0
-		2	2	3
-		3	4	0
-		4	4	0
-	*/
 	int a[5][3] = { 0, 'd', '.', 1, 2, 0, 2, 2, 3, 3, 4, 0, 4, 4, 0 };
 
 	int f[1] = { 4 };
@@ -222,13 +201,13 @@ int Lex::real_DFSM(string str)
 		int col = char_to_col(str[i]);
 		state = a[state][col];
 
-		//if state = 0, then it is a failing state. Reject immediately
+		//if state = 0 then reject it due to failing 
 		if (state == 0) 
-			return 0;
+			return 0;//reject
 	}
     
-    //If current state is equal to accepting state, return 1.
-    //If not, return 0
+    
+  //If state is equal to accepting state, return 1 if not  0
 	if (state == f[0])
 		return 1;
 	else
@@ -241,15 +220,8 @@ int Lex::identifier_DFSM(string str)
 	//starting state
 	int state = 1;
 
-	//transition table
 	//failing state = 0
-	/*	0	d	.	l	#
-		1	0	0	2	0
-		2	0	0	3	4
-		3	0	0	3	4
-		4	0	0	5	0
-		5	0	0	3	4
-	*/
+	
 	int a[6][5] = { 0, 'd', '.', 'l', '#', 1, 0, 0, 2, 0, 2, 0, 0, 3, 4, 3, 0, 0,
 		3, 4, 4, 0, 0, 5, 0, 5, 0, 0, 3, 4 };
 
