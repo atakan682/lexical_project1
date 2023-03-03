@@ -20,8 +20,6 @@ int main() {
         if (!(filename == "exit"))
         {
             file.open(filename.c_str());
-
-            //Make sure file is opened
             if (!file.is_open())
             {
                 cerr << "Failed to open the file\n";
@@ -32,12 +30,12 @@ int main() {
 
 			file.clear();
 			file.seekg(0);
-			//start to do the lexical analysis
+			//lexical analysis
             while (!file.eof())
             {
                 check.lexer(file);
 
-				//if there is a whitespace at eof, skip printing
+				//whitespace at eof, skip printing
 				if (!(check.getLexeme() == "EOF"))
 				{
 					check.print();
