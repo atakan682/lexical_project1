@@ -33,8 +33,8 @@ Lex::Lex()
 //Function to check the separator
 bool Lex::isSeparator(const char input) const
 {
-	int separator[6] = { '(',')', '{', '}', ',', ';' };
-	for (int i = 0; i < 6; i++) {
+	int separator[8] = { '(',')', '{', '}', ',', ';' , '#',':' };
+	for (int i = 0; i < 8; i++) {
 		if (separator[i] == input) {
 			return 1;
 		}
@@ -45,8 +45,8 @@ bool Lex::isSeparator(const char input) const
 //Function to check  the operator
 bool Lex::isOperator(const char input) const
 {
-	int operators[12] = { '+', '-', '/', '*', '<','>',':', '=' , '==', '!=', '<=', '>=' };
-	for (int i = 0; i < 12; i++) {
+	int operators[11] = { '+', '-', '/', '*', '<','>', '=' , '==', '!=', '<=', '>=' };
+	for (int i = 0; i < 11; i++) {
 		if (operators[i] == input) {
 			return 1;
 		}
@@ -66,7 +66,7 @@ bool Lex::checkKeyword(string identifier) const
 	return 0;
 }
 
-// Check string input to see if there is a separator, a letter, a digit, '#', '.' and return the category number for that type
+// Check string input to see if there is a separator, a letter, a digit, '_', '.' and return the category number for that type
 int Lex::Classify(string s) {
 	int len = s.length();
 
@@ -86,12 +86,12 @@ int Lex::Classify(string s) {
 
 	//get first char of the string
 	char classify_ch = s[0];
-	if (isalpha(classify_ch) || classify_ch == '#')
+	if (isalpha(classify_ch) || classify_ch == '_')
 	{
 		for (int i = 0; i < len; i++)
 		{
 			//if char is # or letter 
-			if (s[i] == '#' || isalpha(s[i]));
+			if (s[i] == '_' || isalpha(s[i]));
 			else
 				return 6; //if not or else return 6 which is invalid input
 		}
@@ -131,14 +131,14 @@ int Lex::char_to_col(const char input) const
 	//Convert char to column using Finite State Machine
 	if (isdigit(input))
 		return 1; //#1 if a digit
-	else if (input == '.')
-		return 2; //#2 if a point
 	else if (isalpha(input))
-		return 3; //#3 a letter
-	else if (input == '#')
-		return 4; //#4 a #
+		return 2; //#2 if a letter
+	else if (input == '_')
+		return 3; //#3 a _
+	else if (input == '.')
+		return 4; //#4 a .
 	else
-		return 5; //none of them 
+		return 5; //none of them
 }
 
 //Finite State Machine for integer
@@ -205,8 +205,8 @@ int Lex::identifier_DFSM(string str)
 	//starting state
 	int state = 1;
 	
-	int a[6][5] = { 0, 'd', '.', 'l', '#', 1, 0, 0, 2, 0, 2, 0, 0, 3, 4, 3, 0, 0,
-		3, 4, 4, 0, 0, 5, 0, 5, 0, 0, 3, 4 };
+	int a[6][4] = { 0, 'd','l', '_', 1, 0, 2, 0, 2, 3, 4, 5, 3, 3, 4, 5,
+		4, 3, 4, 5, 5, 3, 4, 5};
 
 	int f[4] = { 2, 3, 4, 5 };
 
@@ -310,8 +310,8 @@ void Lex::lexer(ifstream& file)
 		//return the next char
 		ch = file.peek();
 
-		//check for valid operators: /=, :=, <=, >=
-		if ((str[0] == ':' && ch == '=') || (str[0] == '/' && ch == '=')
+		//check for valid operators: ==, !=, <=, >=
+		if ((str[0] == '=' && ch == '=') || (str[0] == '!' && ch == '=')
 			|| (str[0] == '=' && ch == '>') || (str[0] == '<' && ch == '='))
 		{
 			str += ch;
@@ -319,7 +319,7 @@ void Lex::lexer(ifstream& file)
 		}
 
 		//reject invalid operators
-		if (isOperator(str[0]) || str == ":=" || str == "/=" || str == "<=" || str == ">=")
+		if (isOperator(str[0]) || str == "==" || str == "!=" || str == "<=" || str == ">=")
 		{
 			this->setToken("operator");
 			this->setLexeme(str);
@@ -334,13 +334,13 @@ void Lex::lexer(ifstream& file)
 	else if (classify == 2) {
 		str = ch;
 		ch = file.peek();
-		if (str[0] == '%' && ch == '%')
+		if (str[0] == '#' )
 		{
 			str += ch;
 			file.get();
 		}
 
-		if (!(str[0] == '%') || str == "%%")
+		if (!(str[0] == '#'))
 		{
 			this->setLexeme(str);
 			this->setToken("separator");
