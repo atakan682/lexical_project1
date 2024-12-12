@@ -1,8 +1,4 @@
-# lexical_project1 CPSC 323
-
-CSUF Spring 2023
-
-RAT23S
+# RAT23S
 1) Lexical Conventions:
 The lexical units of a program are identifiers, keywords, integers, reals, operators and other 
 separators.  Blanks, tabs and newlines (collectively, "white space") as described below
